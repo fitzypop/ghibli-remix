@@ -23,12 +23,12 @@ export type Film = {
 
 export type Films = Film[];
 
-const BASE_URL = "https://ghibli.deno.dev/api";
-const FILMS_URL = `${BASE_URL}/films`;
-const PEOPLE_URL = `${BASE_URL}/people`;
+const BASE_URI = `${process.env.GHIBLIAPI_DOMAIN}/api`;
+const FILMS_URI = `${BASE_URI}/films`;
+const PEOPLE_URI = `${BASE_URI}/people`;
 
 export async function getFilms(title?: string | null) {
-  const response = await fetch(FILMS_URL);
+  const response = await fetch(FILMS_URI);
   const films: Films = await response.json();
   return films.filter((film) =>
     title ? film.title.toLowerCase().includes(title.toLowerCase()) : true
@@ -36,19 +36,19 @@ export async function getFilms(title?: string | null) {
 }
 
 export async function getFilmById(filmId: string) {
-  const response = await fetch(`${FILMS_URL}/${filmId}`);
+  const response = await fetch(`${FILMS_URI}/${filmId}`);
   const film: Film = await response.json();
   const comments = await getComments(filmId);
   const characters = await Promise.all(
     film.people
-      .filter((url) => url !== PEOPLE_URL)
-      .map((url) => fetch(url).then((res) => res.json()))
+      .filter((url) => url !== PEOPLE_URI)
+      .map((url) => fetch(url).then((res) => res.json())),
   );
   return { ...film, characters, comments };
 }
 
 export async function getFilmCharacter(id: string): Promise<FilmCharacter> {
-  const response = await fetch(`${PEOPLE_URL}/${id}`);
+  const response = await fetch(`${PEOPLE_URI}/${id}`);
 
   if (!response.ok) {
     throw response;

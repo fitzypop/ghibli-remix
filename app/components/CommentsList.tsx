@@ -1,5 +1,6 @@
 import { Form, useActionData, useTransition } from "@remix-run/react";
 import { CommentEntry } from "~/api/comments";
+import Button from "./Button";
 
 type CommentsListProps = {
   filmId: string;
@@ -57,14 +58,11 @@ export default function CommentsList({ filmId, comments }: CommentsListProps) {
                 <p className="text-red-500">{actionData.errors.message}</p>
               )}
 
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2"
-              >
+              <Button type="submit">
                 {transition.state === "submitting"
                   ? "Adding..."
                   : "Add Comment"}
-              </button>
+              </Button>
             </fieldset>
           </Form>
         </div>

@@ -9,7 +9,7 @@ Following this tutorial: https://www.youtube.com/watch?v=HOlYQu_r4Io&t=2589s
 From your terminal:
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
@@ -19,13 +19,13 @@ This starts your app in development mode, rebuilding assets on file changes.
 First, build your app for production:
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 Then run the app in production mode:
 
 ```sh
-npm start
+pnpm start
 ```
 
 Now you'll need to pick a host to deploy it to.

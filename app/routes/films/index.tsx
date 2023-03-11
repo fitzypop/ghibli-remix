@@ -1,6 +1,7 @@
 import { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { Films, getFilms } from "~/api/films";
+import Button from "~/components/Button";
 
 export const meta: MetaFunction = () => {
   return { title: "Studio Ghibli | Films" };
@@ -25,12 +26,9 @@ export default function FilmsIndex() {
       <h1 className="text-5xl font-bold text-center">Studio Ghibli Films</h1>
 
       <Form reloadDocument method="get" className="py-5">
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-        >
+        <Button type="submit">
           Search
-        </button>{" "}
+        </Button>{" "}
         <input
           type="text"
           name="title"
