@@ -1,5 +1,6 @@
 import { LoaderArgs } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
+import { PropsWithChildren } from "react";
 import invariant from "tiny-invariant";
 import { getFilmCharacter } from "~/api/films";
 
@@ -9,11 +10,15 @@ export const loader = async ({ params }: LoaderArgs) => {
   return getFilmCharacter(params.characterId);
 };
 
-function CharacterWrapper({ title, colors, children }: any) {
+function CharacterWrapper(
+  props: PropsWithChildren<{ title: string; colors?: string | undefined }>
+) {
   return (
     <div className="mb-3">
-      <div className="mb-2 text-3xl">{title}</div>
-      <div className={`rounded border p-4 shadow-lg ${colors}`}>{children}</div>
+      <div className="mb-2 text-3xl">{props.title}</div>
+      <div className={`rounded border p-4 shadow-lg ${props.colors ?? ""}`}>
+        {props.children}
+      </div>
     </div>
   );
 }
