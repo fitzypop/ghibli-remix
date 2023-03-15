@@ -25,6 +25,8 @@
     "concurrently": "^7.6.0",
     "eslint": "^8.27.0",
     "json-server": "^0.17.2",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.4",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.8.4"
   },

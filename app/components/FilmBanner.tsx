@@ -8,9 +8,9 @@ type FilmBannerProps = {
 export default function FilmBanner({ film }: FilmBannerProps) {
   return (
     <div>
-      <div className="w-full h-96 overflow-hidden relative">
-        <div className="w-full h-full flex flex-col absolute justify-between items-start">
-          <Link to="/films" className="text-white p-5 text-2xl hover:underline">
+      <div className="relative h-96 w-full overflow-hidden">
+        <div className="absolute flex h-full w-full flex-col items-start justify-between">
+          <Link to="/films" className="p-5 text-2xl text-white hover:underline">
             Go Back
           </Link>
           <div className="bg-slate-700/60 p-5">
@@ -20,7 +20,7 @@ export default function FilmBanner({ film }: FilmBannerProps) {
 
         <img
           src={film.movie_banner}
-          className="w-full h-auto"
+          className="h-auto w-full"
           style={{ marginTop: -100 }}
           alt={film.title}
         />

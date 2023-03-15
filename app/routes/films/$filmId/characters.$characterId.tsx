@@ -1,9 +1,9 @@
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderArgs } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { FilmCharacter, getFilmCharacter } from "~/api/films";
+import { getFilmCharacter } from "~/api/films";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.characterId, "expected params.charactersId");
 
   return getFilmCharacter(params.characterId);
@@ -12,18 +12,18 @@ export const loader: LoaderFunction = async ({ params }) => {
 function CharacterWrapper({ title, colors, children }: any) {
   return (
     <div className="mb-3">
-      <div className="text-3xl mb-2">{title}</div>
-      <div className={`p-4 rounded shadow-lg border ${colors}`}>{children}</div>
+      <div className="mb-2 text-3xl">{title}</div>
+      <div className={`rounded border p-4 shadow-lg ${colors}`}>{children}</div>
     </div>
   );
 }
 
 export default function CharacterDetails() {
   const { name, gender, age, eye_color, hair_color } =
-    useLoaderData<FilmCharacter>();
+    useLoaderData<typeof loader>();
   return (
     <CharacterWrapper title="Character Details">
-      <div className="text-gray-700 font-bold text-xl mb-2">{name}</div>
+      <div className="mb-2 text-xl font-bold text-gray-700">{name}</div>
       <ul className="py-2">
         <li key={"1"}>Gender: {gender}</li>
         <li key={"2"}>Age: {age}</li>
@@ -43,7 +43,7 @@ export function CatchBoundary() {
         title="Caught Error"
         colors="bg-orange-200 border-orange-600"
       >
-        <div className="text-gray-700 font-bold text-xl-mb-2">
+        <div className="text-xl-mb-2 font-bold text-gray-700">
           {caught.statusText}
         </div>
         <p>
@@ -64,7 +64,7 @@ export function ErrorBoundary({ error }: any) {
       title="Unhandled Error"
       colors="bg-rose-200 border-rose-600"
     >
-      <div className="text-gray-700 font-bold text-xl mb-2">
+      <div className="mb-2 text-xl font-bold text-gray-700">
         Uh oh... Sorry something went wrong!
       </div>
       <p>{error?.message}</p>

@@ -1,13 +1,13 @@
 import {
-  ActionFunction,
-  LoaderFunction,
+  ActionArgs,
+  LoaderArgs,
   MetaFunction,
   redirect,
 } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { addComment } from "~/api/comments";
-import { getFilmById, Film } from "~/api/films";
+import { getFilmById } from "~/api/films";
 import CharacterList from "~/components/CharacterList";
 import CommentsList from "~/components/CommentsList";
 import FilmBanner from "~/components/FilmBanner";
@@ -16,7 +16,7 @@ export const meta: MetaFunction = ({ data }) => {
   return { title: data.title, description: data.description };
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.filmId, "expected params.filmId");
 
   const film = await getFilmById(params.filmId);
@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   return film;
 };
 
-export const action: ActionFunction = async ({ request, params }) => {
+export const action = async ({ request, params }: ActionArgs) => {
   invariant(params.filmId, "expected params.filmId");
 
   const body = await request.formData();
@@ -57,7 +57,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function FilmDetails() {
-  const film = useLoaderData() as Film;
+  const film = useLoaderData<typeof loader>();
   return (
     <div>
       <FilmBanner film={film} />
@@ -65,10 +65,10 @@ export default function FilmDetails() {
       <div className="p-10">
         <p>{film.description}</p>
 
-        <div className="flex py-5 space-x-5">
+        <div className="flex space-x-5 py-5">
           <CharacterList characters={film.characters} />
 
-          <div className="flex-1 flex flex-col justify-between">
+          <div className="flex flex-1 flex-col justify-between">
             <Outlet />
 
             <CommentsList filmId={film.id} comments={film.comments || []} />

@@ -1,4 +1,4 @@
-import { Form, useActionData, useTransition } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { CommentEntry } from "~/api/comments";
 import Button from "./Button";
 
@@ -8,7 +8,7 @@ type CommentsListProps = {
 };
 
 export default function CommentsList({ filmId, comments }: CommentsListProps) {
-  const transition = useTransition();
+  const nav = useNavigation();
   const actionData = useActionData();
 
   const inputStyle = (fieldName: string) =>
@@ -18,22 +18,22 @@ export default function CommentsList({ filmId, comments }: CommentsListProps) {
 
   return (
     <div>
-      <h2 className="text-3xl mb-2">Community Comments</h2>
+      <h2 className="mb-2 text-3xl">Community Comments</h2>
 
-      <div className="flex flex-col space-y-4 my-3">
+      <div className="my-3 flex flex-col space-y-4">
         {comments.map((com) => (
-          <div className="p-4 rounded border border-slate-400">
-            <div className="text-gray-700 font-bold text-xl mb-2">
+          <div className="rounded border border-slate-400 p-4">
+            <div className="mb-2 text-xl font-bold text-gray-700">
               {com.name}
             </div>
             <p className="text-gray-700">{com.message}</p>
           </div>
         ))}
 
-        <div className="p-4 rounded border border-slate-400">
+        <div className="rounded border border-slate-400 p-4">
           <Form method="post" action={`/films/${filmId}`}>
-            <fieldset disabled={transition.state === "submitting"}>
-              <label htmlFor="name" className="inline-block my-2">
+            <fieldset disabled={nav.state === "submitting"}>
+              <label htmlFor="name" className="my-2 inline-block">
                 Name:
               </label>
               <input
@@ -46,7 +46,7 @@ export default function CommentsList({ filmId, comments }: CommentsListProps) {
                 <p className="text-red-500">{actionData.errors.name}</p>
               )}
 
-              <label htmlFor="message" className="inline-block my-2">
+              <label htmlFor="message" className="my-2 inline-block">
                 Message:
               </label>
               <textarea
@@ -59,9 +59,7 @@ export default function CommentsList({ filmId, comments }: CommentsListProps) {
               )}
 
               <Button type="submit">
-                {transition.state === "submitting"
-                  ? "Adding..."
-                  : "Add Comment"}
+                {nav.state === "submitting" ? "Adding..." : "Add Comment"}
               </Button>
             </fieldset>
           </Form>
